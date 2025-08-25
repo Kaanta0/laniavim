@@ -1,9 +1,10 @@
 return {
   'echasnovski/mini.nvim',
   version = '*',
-  config = function()
+  opts = {},
+  config = function(_, _)
     require('mini.animate').setup()
     require('mini.clue').setup()
     require('mini.notify').setup()
-  end
+  end,
 }

@@ -1,9 +1,9 @@
-local nvim_highlight_colors = {
+return {
   'brenoprata10/nvim-highlight-colors',
-  config = function()
-    require('nvim-highlight-colors').setup({
-      render = 'foreground',
-    })
-  end
+  opts = {
+    render = 'foreground',
+  },
+  config = function(_, opts)
+    require('nvim-highlight-colors').setup(opts)
+  end,
 }
-return { nvim_highlight_colors }

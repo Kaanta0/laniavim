@@ -1,40 +1,38 @@
-local KEYS = {}
+-- Modern keymapping helpers using `vim.keymap.set`
+-- This replaces the previous custom wrapper and ensures all mappings
+-- are non-recursive and silent by default.
 
-function KEYS.map(mode, lhs, rhs, opts)
-    local options = { noremap = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+local function map(mode, lhs, rhs, opts)
+  opts = vim.tbl_deep_extend("force", { noremap = true, silent = true }, opts or {})
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
---[ LAZY ]--
-KEYS.map("n", "<Leader>ls", ":Lazy sync<CR>", { silent = true })
+-- [LAZY]
+map("n", "<Leader>ls", ":Lazy sync<CR>")
 
---[ UI ]--
-KEYS.map("n", "<Leader>un", ":NeoTreeFocusToggle<CR>", { silent = true })
-KEYS.map("n", "<Leader>us", ":SymbolsOutline<CR>", { silent = true })
+-- [UI]
+map("n", "<Leader>un", ":NeoTreeFocusToggle<CR>")
+map("n", "<Leader>us", ":SymbolsOutline<CR>")
 
---[ SPLIT ]--
-KEYS.map("n", "<Leader>sv", ":vertical split<CR>", { silent = true })
-KEYS.map("n", "<Leader>sh", ":horizontal split<CR>", { silent = true })
+-- [SPLIT]
+map("n", "<Leader>sv", ":vertical split<CR>")
+map("n", "<Leader>sh", ":horizontal split<CR>")
 
---[ HOP ]--
-KEYS.map("n", "<Leader>hp", ":HopPattern<CR>", { silent = true })
-KEYS.map("n", "<Leader>hw", ":HopWord<CR>", { silent = true })
+-- [HOP]
+map("n", "<Leader>hp", ":HopPattern<CR>")
+map("n", "<Leader>hw", ":HopWord<CR>")
 
---[ GIT ]--
-KEYS.map("n", "<Leader>gv", ":DiffviewOpen<CR>", { silent = true })
+-- [GIT]
+map("n", "<Leader>gv", ":DiffviewOpen<CR>")
 
---[ DIAGNOSTIC ]--
-KEYS.map("n", "<Leader>dt", ":TroubleToggle<CR>", { silent = true })
+-- [DIAGNOSTIC]
+map("n", "<Leader>dt", ":TroubleToggle<CR>")
 
---[ TELESCOPE ]--
-KEYS.map("n", "<Leader>tc", ":Telescope colorscheme<CR>", {silent = true})
-KEYS.map("n", "<Leader>tb", ":Telescope buffers<CR>", {silent = true})
-KEYS.map("n", "<Leader>tf", ":Telescope find_files<CR>", {silent = true})
+-- [TELESCOPE]
+map("n", "<Leader>tc", ":Telescope colorscheme<CR>")
+map("n", "<Leader>tb", ":Telescope buffers<CR>")
+map("n", "<Leader>tf", ":Telescope find_files<CR>")
 
+-- [TERMINAL]
+map("n", "<Leader>ut", ":ToggleTerm<CR>")
 
-KEYS.map("n", "<Leader>ut", ":ToggleTerm<CR>", {silent = true})
-
-return KEYS

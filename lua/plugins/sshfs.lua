@@ -1,11 +1,9 @@
 return {
   "nosduco/remote-sshfs.nvim",
   dependencies = { "nvim-telescope/telescope.nvim" },
-  opts = {
-
-  },
-  config = function()
-    require('telescope').load_extension 'remote-sshfs'
-    require('remote-sshfs').setup()
-  end
+  opts = {},
+  config = function(_, opts)
+    require('telescope').load_extension('remote-sshfs')
+    require('remote-sshfs').setup(opts)
+  end,
 }

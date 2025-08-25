@@ -1,13 +1,14 @@
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
-  config = function()
-    require('telescope').setup({
-      pickers = {
-        colorscheme = {
-          enable_preview = true
-        }
-      }
-    })
-  end
+  opts = {
+    pickers = {
+      colorscheme = {
+        enable_preview = true,
+      },
+    },
+  },
+  config = function(_, opts)
+    require('telescope').setup(opts)
+  end,
 }

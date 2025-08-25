@@ -1,66 +1,33 @@
-local autoclose = require("plugins.autoclose")
-local barbecue = require("plugins.barbecue")
-local crates = require("plugins.crates")
-local diffview = require("plugins.diffview")
-local distant = require("plugins.distant")
-local everblush = require("plugins.everblush")
-local git_blame = require("plugins.git_blame")
-local gitsigns = require("plugins.gitsigns")
-local gruvbox = require("plugins.gruvbox")
-local halcyon = require("plugins.halcyon")
-local hop = require("plugins.hop")
-local indent_blankline = require("plugins.indent_blankline")
-local kanagawa = require("plugins.kanagawa")
-local markdown_preview = require("plugins.markdown_preview")
-local mason_lspconfig = require("plugins.mason_lspconfig")
-local mini = require("plugins.mini")
-local neotree = require("plugins.neotree")
-local nvim_cmp = require("plugins.nvim_cmp")
-local nvim_cokeline = require("plugins.nvim_cokeline")
-local nvim_dap = require("plugins.nvim_dap")
-local nvim_highlight_colors = require("plugins.nvim_highlight_colors")
--- local pretty_fold = require("plugins.pretty_fold")
-local pywal = require("plugins.pywal")
-local symbols_outline = require("plugins.symbols_outline")
-local remote_sshfs = require("plugins.sshfs")
-local telescope = require("plugins.telescope")
-local toggleterm = require("plugins.toggleterm")
-local tokyonight = require("plugins.tokyonight")
-local treesitter = require("plugins.treesitter")
-local trouble = require("plugins.trouble")
-local cyberdream = require("plugins.cyberdream")
-local plugins = require("lazy").setup
-plugins {
-  autoclose,
-  barbecue,
-  crates,
-  diffview,
-  distant,
-  everblush,
-  git_blame,
-  gitsigns,
-  gruvbox,
-  halcyon,
-  hop,
-  indent_blankline,
-  kanagawa,
-  markdown_preview,
-  mason_lspconfig,
-  mini,
-  neotree,
-  nvim_cmp,
-  nvim_cokeline,
-  nvim_dap,
-  nvim_highlight_colors,
---  pretty_fold,
-  pywal,
-  symbols_outline,
-  remote_sshfs,
-  telescope,
-  toggleterm,
-  tokyonight,
-  treesitter,
-  trouble,
-  cyberdream,
-}
-vim.cmd("colorscheme cyberdream")
+-- Dynamically load every plugin specification in `lua/plugins`
+local function load_plugins()
+  local specs = {}
+  -- Determine absolute path to the plugins directory relative to this file
+  local base = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":p:h:h")
+  local plugin_dir = base .. "/plugins"
+  for _, file in ipairs(vim.fn.readdir(plugin_dir, function(name)
+    return name:sub(-4) == ".lua"
+  end)) do
+    local module = "plugins." .. file:gsub("%.lua$", "")
+    local ok, spec = pcall(require, module)
+    if ok then
+      if type(spec) == "table" then
+        if vim.tbl_islist(spec) then
+          vim.list_extend(specs, spec)
+        else
+          table.insert(specs, spec)
+        end
+      else
+        vim.notify("Plugin spec for " .. module .. " was not a table", vim.log.levels.WARN)
+      end
+    else
+      vim.notify("Failed to load plugin: " .. module .. "\n" .. spec, vim.log.levels.ERROR)
+    end
+  end
+  return specs
+end
+
+require("lazy").setup(load_plugins())
+
+-- Set default colourscheme once plugins are ready. `pcall` prevents
+-- startup failures on the first run before the scheme is installed.
+pcall(vim.cmd, "colorscheme cyberdream")
