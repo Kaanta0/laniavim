@@ -1,7 +1,7 @@
-return = {
+return {
   "glepnir/galaxyline.nvim",
-  -- your statusline
-  config = function()
+  opts = {},
+  config = function(_, _)
     require("galaxyline.themes.eviline")
-  end
+  end,
 }

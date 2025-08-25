@@ -1,8 +1,9 @@
 return {
   "ellisonleao/gruvbox.nvim",
-  config = function ()
-    require('gruvbox').setup({
-      transparent_mode = true,
-    }) 
-  end
+  opts = {
+    transparent_mode = true,
+  },
+  config = function(_, opts)
+    require('gruvbox').setup(opts)
+  end,
 }

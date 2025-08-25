@@ -1,6 +1,7 @@
 return {
   'm4xshen/autoclose.nvim',
-  config = function()
-    require("autoclose").setup()
-  end
+  opts = {},
+  config = function(_, opts)
+    require('autoclose').setup(opts)
+  end,
 }

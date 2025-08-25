@@ -1,8 +1,8 @@
 return {
   "uZer/pywal16.nvim",
   as = 'pywal16',
-  config = function ()
-    local pywal16 = require('pywal16')
-    pywal16.setup()
-  end
+  opts = {},
+  config = function(_, opts)
+    require('pywal16').setup(opts)
+  end,
 }

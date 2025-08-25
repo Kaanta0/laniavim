@@ -7,4 +7,7 @@ return {
     "nvim-tree/nvim-web-devicons", -- optional dependency
   },
   opts = {},
+  config = function(_, opts)
+    require('barbecue').setup(opts)
+  end,
 }

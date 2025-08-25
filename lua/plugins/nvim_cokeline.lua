@@ -1,11 +1,10 @@
-local nvim_cokeline = {
+return {
   'willothy/nvim-cokeline',
-  requires = 'kyazdani42/nvim-web-devicons', -- If you want devicons
-  config = function()
-    require('cokeline').setup({
-      show_if_buffers_are_at_least = 2,
-    })
-  end
+  dependencies = 'kyazdani42/nvim-web-devicons',
+  opts = {
+    show_if_buffers_are_at_least = 2,
+  },
+  config = function(_, opts)
+    require('cokeline').setup(opts)
+  end,
 }
-
-return { nvim_cokeline }
